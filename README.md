@@ -8,7 +8,9 @@ Webpage has html , css and js code. in order to use the webpage read the "HOW TO
 
 # Requirements
 *ESP8266(wemos d1 mini)
+
 *LEDs
+
 *KY-038 (mic. module)
 
 # How to use it

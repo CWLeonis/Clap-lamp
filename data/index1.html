@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Report</title>
+
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script>
+
+function ret_data(some,some1){
+
+let xVal = some.map(i=>Number(i)+12600 );
+let yVal = some1.map(j=>Number(j));
+
+const arr = [];
+
+for (var i = 0; i < xVal.length; i++) {
+ let x = xVal[i];
+let y = yVal[i];
+var ar1 = [] ;
+ar1.push(x,y);
+arr.push(ar1); 
+}
+
+console.log(arr)
+
+
+console.time('line');
+Highcharts.chart('myChart', {
+
+    chart: {
+        zoomType: 'x,y' , 
+    },
+
+   title: {
+        text: 'Sound sensor Report '
+    },
+
+   subtitle: {
+        text: 'Monitoring (As  PLOT)'
+    },
+
+   accessibility: {
+        screenReaderSection: {
+            beforeChartFormat: '<{headingTagName}>{chartTitle}</{headingTagName}><div>{chartSubtitle}</div><div>{chartLongdesc}</div><div>{xAxisDescription}</div><div>{yAxisDescription}</div>'
+        }
+    },
+   exporting: {
+            enabled: true
+        },
+
+   tooltip: {
+        valueDecimals: 2
+    },
+
+   xAxis: {
+        type: 'datetime',
+dateTimeLabelFormats: {
+      millisecond: '%H:%M:%S.%L'
+    }
+    },
+
+    series: [{
+        data:arr,
+        lineWidth: 0.5,
+        name: 'milliSec data points'
+    }]
+
+});
+console.timeEnd('line');
+
+}
+
+
+function readFile(){
+   
+        const url = "/report_data";
+        
+        var files ;
+        
+        var request = new XMLHttpRequest();
+        request.open('GET', url, true);
+        request.send();
+
+        request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+        files = this.responseText.split("\n");
+        
+        const xValues = [];
+        const yValues = [];
+
+        var rowData = files;
+
+        for (var row = 1; row < rowData.length-1; row++) {
+
+        rowColData = rowData[row].split(',');
+
+        for (var col = 0; col < rowColData.length; col++) {
+
+        if(col %2==0){
+
+        xValues.push(rowColData[col]);
+        console.log(rowColData[col]);
+        }else{
+        yValues.push(rowColData[col]);
+        }
+        }
+        }
+        ret_data(xValues,yValues);
+
+        var type = request.getResponseHeader('Content-Type');
+        if (type.indexOf("text") !== 1) {
+        files =  request.responseText;
+        }
+        }
+        
+}
+
+}
+
+</script>
+
+<style type="text/css">
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:500');
+ @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css');
+
+body{
+margin-top:30px;
+background:  linear-gradient(90deg, rgba(233, 233, 233, 1), rgba(172, 172, 172, 1));
+} 
+
+ .face-button {
+	 height: 50px;
+	border-radius:10px;
+	 border: 3px solid #32ed83;
+	 font-family: 'Roboto', sans-serif;
+	 font-size: 20px;
+	 font-weight: 50;
+	 text-align: center;
+	 text-decoration: none;
+	 color: #32ed83;
+	 overflow: hidden;
+margin: 10px 20px 35px;
+}
+ .face-button .icon {
+	 margin-right: 6px;
+}
+
+.face-secondary {
+background-color: white;
+}
+
+ .face-button .face-primary, .face-button .face-secondary {
+margin-top: -7px;
+	 display: block;
+	 padding: 0 15px;
+	 line-height: 64px;
+	 transition: margin 0.4s;
+}
+ .face-button .face-primary {
+	 background-color: #32ed83;
+	 color: #fff;
+}
+ .face-button:hover .face-primary {
+	 margin-top: -64px;
+}
+ .face-button:active  .face-secondary{
+	 margin-top: -2px;
+	 #background-color: #308f6e;
+}
+
+
+#mcbox{display: flex;justify-content:center; }
+
+#buttons { display: flex;justify-content:center; }
+.button {display: flex;
+justify-content:center;
+width: 140px;background-color: #45F30B;border: none;color: White;
+padding: 15px 45px; text-decoration: none; font-size: 20px; font-weight: 50; margin: 10px 20px 35px; cursor: pointer; border-radius: 10px;text-align: center;}
+
+.button-up { background-color: #288aa6 ;padding: 15px 90px ; font-family: 'Roboto', sans-serif;}
+.button-up:active {background-color: #1e687d ;padding: 15px 90px; font-family:'Roboto', sans-serif;}
+
+.button-dl { background-color: #32ed83 ;}
+.button-dl:active {background-color: #30bf6e ;}
+
+</style>
+</head>
+
+<body>
+
+
+<div id="mcbox">
+<div id="myChart" style="width:100%;max-width:700px; max-height:400px"></div>
+</div>
+<div>
+    <div id="buttons">
+         <!--input type="file" name="file" id="file" accept=".txt" > <br><br> -->
+         <input type="button" class="button button-up" id="btnsubmit" value="Update Chart" onclick="readFile();" >
+        <a class="face-button" href="/download">
+ <div class="face-primary">
+    <span class="icon fa fa-download"></span>
+    Download File
+  </div>
+  
+  <div class="face-secondary">
+    <span class="icon fa fa-hdd-o"></span>
+    sound_data.txt
+  </div>
+
+</a>
+
+</body>
+</html>
+

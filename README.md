@@ -6,6 +6,11 @@ In the webpage, there is report tab that can monitor sounds detected by the modu
 The app using MQTT Protocol to connect to the bord. make sure you have stable connection هn order to use the app. also you can change the MQTT server.
 Webpage has html , css and js code. in order to use the webpage read the "HOW TO USE IT" section.
 
+# Requirements
+ESP8266(wemos d1 mini)
+LEDs
+KY-038 (mic. module)
+
 # How to use it
 **DO NOT REOMVE THE data FOLDER OR ITS CONTENT**
 you download or clone the repository and in arduino ide from the tools menu select "sketch data upload" to upload the webpage code on the connected esp8266 module then run the "final-proj.ino" in arduino ide. 

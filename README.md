@@ -1,4 +1,4 @@
-# Clap-lamp-
+# Clap-lamp
 Smart switch that can control the lamp and electronic appliances with your clap, app and webpage
 # Introduction
 in this iot project created a smart switch using Wemos D1 mini and KY-038 module. it control devices and lamps with clap. also it can power off and on using Android app and Webpage.

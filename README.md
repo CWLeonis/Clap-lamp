@@ -7,9 +7,9 @@ The app using MQTT Protocol to connect to the bord. make sure you have stable co
 Webpage has html , css and js code. in order to use the webpage read the "HOW TO USE IT" section.
 
 # Requirements
-ESP8266(wemos d1 mini)
-LEDs
-KY-038 (mic. module)
+*ESP8266(wemos d1 mini)
+*LEDs
+*KY-038 (mic. module)
 
 # How to use it
 **DO NOT REOMVE THE data FOLDER OR ITS CONTENT**
